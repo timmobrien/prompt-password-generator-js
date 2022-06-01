@@ -1,10 +1,12 @@
+// v1.1
+
 
 // Arrays for character types
 const specialCharacters = ["!", "@", "#", "%", "^", "&", "*", "(", ")", "_", "-", "=", "+", "~", "[", "]", "|", "{", "{", "}", ":", ";"];
 const lowercaseCharacters = ['q', "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"];
 const numberCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 // Added more spaces in this array to increase chance of getting a space
-const spaceCharacter = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",];
+const spaceCharacters = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",];
 
 // lowercase array converted to string & changed to upper case, before comma's are removed and it is split back into array
 const uppercaseCharacters = lowercaseCharacters.toString().toUpperCase().replace(/,/g,"").split("")
@@ -14,7 +16,8 @@ const generateBtn = document.getElementById('generate');
 const copyButton = document.getElementById('copy')
 
 
-// Main function 
+// Main function
+// Re-wrote the functions in short-hand to get familiar  
 generatePassword = () => {
 
   // Confirms user wants to start creating password
@@ -62,26 +65,27 @@ AskUserChoice = () => {
 
   // Define choices variable which is a placeholder to be added to
   const choices = [""]
+
   // Asking for user input in each category. If user says yes, that character array is pushed to the choices array
-  // Consecutive if statements allow for multple inputs to be inputted
+  // Consecutive if statements to allow for multiple statements to be true
   const chooseNumber = confirm('Do you want to include numbers?');
-  if (chooseNumber) { Array.prototype.push.apply(choices, numberCharacters) };
+  if (chooseNumber) {Array.prototype.push.apply(choices, numberCharacters)};
 
   const chooseUpper = confirm('Do you want uppercase characters?');
-  if (chooseUpper) { Array.prototype.push.apply(choices, uppercaseCharacters) };
+  if (chooseUpper) {Array.prototype.push.apply(choices, uppercaseCharacters)};
 
   const chooseLower = confirm('Do you want lowercase characters?');
-  if (chooseLower) { Array.prototype.push.apply(choices, lowercaseCharacters) };
+  if (chooseLower) {Array.prototype.push.apply(choices, lowercaseCharacters)};
 
   const chooseSpecial = confirm('Do you want to include special characters?');
-  if (chooseSpecial) { Array.prototype.push.apply(choices, specialCharacters) };
+  if (chooseSpecial) {Array.prototype.push.apply(choices, specialCharacters)};
 
-  const chooseSpace = confirm('Do you want spaces in your password?')
-  if (chooseSpace) { Array.prototype.push.apply(choices, spaceCharacter) };
+  const chooseSpace = confirm('Do you want spaces in your password?');
+  if (chooseSpace) {Array.prototype.push.apply(choices, spaceCharacter)};
 
-  // If after all options, if the choices array length has not changed, user must go back and select at least 1 option
+  // If after all options, if the placeholder array length has not changed, user must go back and select at least 1 option
   if (choices.length === 1) {
-    alert('You must choose at least one item')
+    alert('You must choose at least one item');
     return AskUserChoice();
   }
 
