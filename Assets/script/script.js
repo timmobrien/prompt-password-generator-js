@@ -26,7 +26,8 @@ generatePassword = () => {
   // If user selects "cancel", we say goodbye.
   if (!toStart) {
     alert("Maybe another time.");
-    return;
+    // Returning nothing to prevent undefined showing in password box
+    return ''; 
   }
 
   console.log('User beginning pasword creation')
