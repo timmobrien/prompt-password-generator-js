@@ -1,4 +1,4 @@
-// v1.1
+// v1.2
 
 
 // Arrays for character types
@@ -9,7 +9,7 @@ const numberCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 const spaceCharacters = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",];
 
 // lowercase array converted to string & changed to upper case, before comma's are removed and it is split back into array
-const uppercaseCharacters = lowercaseCharacters.toString().toUpperCase().replace(/,/g,"").split("")
+const uppercaseCharacters = lowercaseCharacters.toString().toUpperCase().replace(/,/g, "").split("")
 
 // Variables that target the buttons
 const generateBtn = document.getElementById('generate');
@@ -25,19 +25,19 @@ generatePassword = () => {
 
   // If user selects "cancel", we say goodbye.
   if (!toStart) {
-    alert("Maybe another time.");
     // Returning nothing to prevent undefined showing in password box
-    return ''; 
+    return '';
   }
 
   console.log('User beginning pasword creation')
 
   // Variable for the number of characters returned from function
-  const characterCountInput = askCharacterCount();
+  let characterCountInput = askCharacterCount();
   console.log(`The user has selected ${characterCountInput} characters`);
 
   // Variable for the array of all possible characters the user chose from
-  const characterChoiceArray = AskUserChoice();
+  let characterChoiceArray = AskUserChoice();
+  if (characterChoiceArray === '') { return; }
 
   // Function that creates the password
   function characterRandomiser() {
@@ -59,41 +59,6 @@ generatePassword = () => {
   copyButton.style.display = ('inline-block')
 
   return finalPassword;
-}
-
-// Function to ask & validate number of characters input
-AskUserChoice = () => {
-
-  // Define choices variable which is a placeholder to be added to
-  const choices = [""]
-
-  // Asking for user input in each category. If user says yes, that character array is pushed to the choices array
-  // Consecutive if statements to allow for multiple statements to be true
-  const chooseNumber = confirm('Do you want to include numbers?');
-  if (chooseNumber) {Array.prototype.push.apply(choices, numberCharacters)};
-
-  const chooseUpper = confirm('Do you want uppercase characters?');
-  if (chooseUpper) {Array.prototype.push.apply(choices, uppercaseCharacters)};
-
-  const chooseLower = confirm('Do you want lowercase characters?');
-  if (chooseLower) {Array.prototype.push.apply(choices, lowercaseCharacters)};
-
-  const chooseSpecial = confirm('Do you want to include special characters?');
-  if (chooseSpecial) {Array.prototype.push.apply(choices, specialCharacters)};
-
-  const chooseSpace = confirm('Do you want spaces in your password?');
-  if (chooseSpace) {Array.prototype.push.apply(choices, spaceCharacter)};
-
-  // If after all options, if the placeholder array length has not changed, user must go back and select at least 1 option
-  if (choices.length === 1) {
-    alert('You must choose at least one item');
-    return AskUserChoice();
-  }
-
-  console.log(choices)
-
-  // returns the final array
-  return choices;
 }
 
 askCharacterCount = () => {
@@ -122,11 +87,46 @@ askCharacterCount = () => {
   }
 }
 
+// Function to ask & validate number of characters input
+AskUserChoice = () => {
+
+  // Define choices variable which is a placeholder to be added to
+  let choices = [""]
+
+  // Asking for user input in each category. If user says yes, that character array is pushed to the choices array
+  // Consecutive if statements to allow for multiple statements to be true
+  const chooseNumber = confirm('Do you want to include numbers?');
+  if (chooseNumber) { Array.prototype.push.apply(choices, numberCharacters) };
+
+  const chooseUpper = confirm('Do you want uppercase characters?');
+  if (chooseUpper) { Array.prototype.push.apply(choices, uppercaseCharacters) };
+
+  const chooseLower = confirm('Do you want lowercase characters?');
+  if (chooseLower) { Array.prototype.push.apply(choices, lowercaseCharacters) };
+
+  const chooseSpecial = confirm('Do you want to include special characters?');
+  if (chooseSpecial) { Array.prototype.push.apply(choices, specialCharacters) };
+
+  const chooseSpace = confirm('Do you want spaces in your password?');
+  if (chooseSpace) { Array.prototype.push.apply(choices, spaceCharacters) };
+
+  // Checks if choices array has gotten any longer 
+  if (choices.length === 1) {
+    const exit = confirm('You must choose at least one item');
+    if (!exit) { return ''; }
+    else if (exit) { return AskUserChoice(); }
+  }
+
+  return choices;
+}
+
+
 // Write password to the #password input
 writePassword = () => {
   const password = generatePassword();
   const passwordText = document.querySelector("#password");
   passwordText.value = password;
+  return;
 }
 
 // onclick of copy button, this function runs and copies the text
@@ -138,7 +138,8 @@ copyPassword = () => {
   alert('Copied the text')
 }
 
+
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-copyButton.addEventListener('click', copyPassword)
+copyButton.addEventListener('click', copyPassword);
 
